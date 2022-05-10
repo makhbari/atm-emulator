@@ -1,7 +1,7 @@
 package com.asanpardakht.atmemulator;
 
 public enum Messages {
-    ERROR_500_OCCURRED("خطایی در سامانه رخ داد.");
+    ERROR_500_OCCURRED("خطای داخلی سرویس");
     private final String value;
 
     Messages(String value) {
