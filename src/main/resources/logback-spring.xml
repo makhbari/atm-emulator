@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
+
+<configuration scan="true" scanPeriod="60 seconds" packagingData="true">
+
+    <springProperty scope="context" name="APP_NAME" source="spring.application.name"/>
+    <springProperty scope="context" name="LOG_PATH" source="logging.file.path" defaultValue="./log/"/>
+    <springProperty scope="context" name="DAILY_LOG_PATH" source="app.log.daily-log-path" defaultValue="./log/"/>
+    <springProperty scope="context" name="LOGBACK_ROLLINGPOLICY_MAX_HISTORY"
+                    source="logging.logback.rollingpolicy.max-history" defaultValue="31"/>
+    <springProperty scope="context" name="LOGBACK_ROLLINGPOLICY_MAX_FILE_SIZE"
+                    source="logging.logback.rollingpolicy.max-file-size" defaultValue="500MB"/>
+    <springProperty scope="context" name="LOG_TOTAL_MAX_SIZE" source="logging.file.total-max-size" defaultValue="15GB"/>
+    <springProperty scope="context" name="LOGGING_LEVEL_ROOT" source="logging.level.root" defaultValue="INFO"/>
+
+    <property name="PATTERN"
+              value="%-7([%level]) [%thread] %date{yyyy-MM-dd'T'HH:mm:ss.SSS} ip:[%X{ip}] username:[%X{UserName}] %logger{20}.%method@%line:%message%n"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}atm.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${DAILY_LOG_PATH}atm.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+            <maxFileSize>${LOGBACK_ROLLINGPOLICY_MAX_FILE_SIZE}</maxFileSize>
+            <maxHistory>${LOGBACK_ROLLINGPOLICY_MAX_HISTORY}</maxHistory>
+            <totalSizeCap>${LOG_TOTAL_MAX_SIZE}</totalSizeCap>
+        </rollingPolicy>
+
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp>
+                    <pattern>yyyy-MM-dd'T'HH:mm:ss.SSS,Asia/Tehran</pattern>
+                    <timeZone>Etc/UTC</timeZone>
+                </timestamp>
+                <mdc/>
+                <callerData/>
+                <logLevel/>
+                <loggerName>
+                    <shortenedLoggerNameLength>40</shortenedLoggerNameLength>
+                </loggerName>
+                <throwableClassName/>
+                <throwableRootCauseClassName/>
+                <pattern>
+                    <pattern>
+                        {
+                        "appname": "${APP_NAME}",
+                        "logMessage": "%message"
+                        }
+                    </pattern>
+                </pattern>
+                <threadName/>
+                <tags/>
+                <logstashMarkers/>
+                <stackTrace>
+                    <throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
+                        <maxDepthPerThrowable>20</maxDepthPerThrowable>
+                        <maxLength>2048</maxLength>
+                        <shortenedClassNameLength>40</shortenedClassNameLength>
+                        <rootCauseFirst>true</rootCauseFirst>
+                        <inlineHash>true</inlineHash>
+                    </throwableConverter>
+                </stackTrace>
+                <arguments/>
+                <sequence/>
+            </providers>
+            <jsonFactoryDecorator class="net.logstash.logback.decorate.CharacterEscapesJsonFactoryDecorator">
+                <includeStandardAsciiEscapesForJSON>true</includeStandardAsciiEscapesForJSON>
+            </jsonFactoryDecorator>
+        </encoder>
+
+    </appender>
+
+    <root level="${LOGGING_LEVEL_ROOT}">
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+</configuration>
