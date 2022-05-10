@@ -6,30 +6,45 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.6.7</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
     <groupId>com.asanpardakht</groupId>
     <artifactId>AtmEmulator</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>AtmEmulator</name>
     <description>AtmEmulator</description>
+
     <properties>
         <java.version>11</java.version>
+        <project.testresult.directory>${project.build.directory}/test-results</project.testresult.directory>
+        <junit.utReportFolder>${project.testresult.directory}/test</junit.utReportFolder>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-inline</artifactId>
+            <version>3.9.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>2.1.212</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -73,29 +88,18 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-            <!--  <plugin>
-                  <groupId>com.google.cloud.tools</groupId>
-                  <artifactId>jib-maven-plugin</artifactId>
-                  <version>3.2.1</version>
-                  <configuration>
-                      <to>
-                          <image>registry.hub.docker.com/akhbari/atm-emulator-app</image>
-                      </to>
-                  </configuration>
-              </plugin>
-  -->
             <plugin>
                 <groupId>com.google.cloud.tools</groupId>
                 <artifactId>jib-maven-plugin</artifactId>
                 <version>2.5.0</version>
                 <configuration>
-<!--                    <from>-->
-<!--                        <image>registry.hub.docker.com/adoptopenjdk/openjdk11</image>-->
-<!--                        <auth>-->
-<!--                            <username>akhbarimahnaz@gmail.com</username>-->
-<!--                            <password>m@@akhbari77</password>-->
-<!--                        </auth>-->
-<!--                    </from>-->
+                    <from>
+                        <image>registry.hub.docker.com/adoptopenjdk/openjdk11</image>
+                        <auth>
+                            <username>akhbarimahnaz@gmail.com</username>
+                            <password>m@@akhbari77</password>
+                        </auth>
+                    </from>
                     <to>
                         <image>registry.hub.docker.com/akhbari/atm-emulator-app</image>
                         <auth>
@@ -106,6 +110,40 @@
                     <allowInsecureRegistries>true</allowInsecureRegistries>
 
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>--add-opens java.xml/jdk.xml.internal=ALL-UNNAMED</argLine>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.8</version>
+                <executions>
+                    <execution>
+                        <id>pre-unit-tests</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <destFile>${jacoco.utReportFile}</destFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>post-unit-test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <dataFile>${jacoco.utReportFile}</dataFile>
+                            <outputDirectory>${jacoco.utReportFolder}</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
