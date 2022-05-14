@@ -14,6 +14,7 @@
     <name>AtmEmulator</name>
     <description>AtmEmulator</description>
 
+
     <properties>
         <java.version>11</java.version>
         <project.testresult.directory>${project.build.directory}/test-results</project.testresult.directory>
