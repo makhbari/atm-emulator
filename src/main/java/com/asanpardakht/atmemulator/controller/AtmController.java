@@ -1,5 +1,7 @@
 package com.asanpardakht.atmemulator.controller;
 
+import com.asanpardakht.atmemulator.dto.CashDepositRequestDto;
+import com.asanpardakht.atmemulator.dto.CashWithdrawalRequestDto;
 import com.asanpardakht.atmemulator.dto.LoginRequestDto;
 import com.asanpardakht.atmemulator.service.AtmService;
 import io.swagger.annotations.ApiOperation;
@@ -27,10 +29,31 @@ public class AtmController {
         return atmService.login(request);
     }
 
-    @GetMapping("/customer/{pan}")
-    @ApiOperation(value = "get customer by pan")
-    public ResponseEntity getCustomer(@PathVariable String pan) {
-        log.info("START getCustomer");
-        return atmService.getCustomer(pan);
+    @GetMapping("/operations")
+    @ApiOperation(value = "get operations")
+    public ResponseEntity getOperations() {
+        log.info("START getOperations");
+        return atmService.getOperations();
+    }
+
+    @PostMapping("/withdraw")
+    @ApiOperation(value = "cash withdrawal")
+    public ResponseEntity withdraw(@RequestBody @Valid CashWithdrawalRequestDto request) {
+        log.info("START withdraw");
+        return atmService.withdraw(request);
+    }
+
+    @PostMapping("/deposit")
+    @ApiOperation(value = "cash deposit")
+    public ResponseEntity deposit(@RequestBody @Valid CashDepositRequestDto request) {
+        log.info("START deposit");
+        return atmService.deposit(request);
+    }
+
+    @GetMapping("/balance")
+    @ApiOperation(value = "check balance")
+    public ResponseEntity getBalance() {
+        log.info("START getBalance");
+        return atmService.getBalance();
     }
 }

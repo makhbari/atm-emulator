@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.7</version>
+        <version>2.5.7</version>
         <relativePath/>
     </parent>
     <groupId>com.asanpardakht</groupId>
@@ -27,8 +27,25 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
@@ -47,11 +64,6 @@
             <artifactId>lombok</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
@@ -65,10 +77,6 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-boot-starter</artifactId>
             <version>3.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
@@ -94,14 +102,14 @@
                 <version>2.5.0</version>
                 <configuration>
                     <from>
-                        <image>registry.hub.docker.com/adoptopenjdk/openjdk11</image>
+                        <image>${registry-address}/adoptopenjdk/openjdk11</image>
                         <auth>
                             <username>akhbarimahnaz@gmail.com</username>
                             <password>m@@akhbari77</password>
                         </auth>
                     </from>
                     <to>
-                        <image>registry.hub.docker.com/akhbari/atm-emulator-app</image>
+                        <image>${registry-address}/akhbari/atm-emulator-app</image>
                         <auth>
                             <username>akhbarimahnaz@gmail.com</username>
                             <password>m@@akhbari77</password>

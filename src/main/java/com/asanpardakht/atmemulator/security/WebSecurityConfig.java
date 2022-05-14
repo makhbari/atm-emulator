@@ -22,7 +22,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/swagger-ui/**",
             "/swagger-ui.html",
             "/v3/api-docs",
-            "/webjars/**"
+            "/webjars/**",
+            "/actuator/**"
     };
 
     private final JwtTokenProvider jwtTokenProvider;
@@ -41,8 +42,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.apply(new JwtTokenFilterConfigurer(jwtTokenProvider));
 
-        // Optional, if you want to test the API from a browser
-        // http.httpBasic();
     }
 
     @Bean
